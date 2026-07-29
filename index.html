@@ -1,0 +1,1215 @@
+<!doctype html>
+<html lang="fr">
+ <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260729-05-7e25993","C":{"Alfa Slab One":"YACgEYS9sJU_0","Archivo":"YAHO2-t-jNE_0","Arial":"YAGyDp9gliI_0","Canva Sans":"YAFLd8sKbwc_2","Cormorant Garamond":"YAFdJhX-538_0","Courier New":"YAGzXiGs0_8_0","Georgia":"YAGzXkO0pEM_0","Impact":"YAFcfnjI7Vk_0","Inter":"YADSwGZbFSo_0","Iowan Old Style":"YAGNIFa8j9o_0","JetBrains Mono":"YAFdJksXcAk_0","Playfair Display":"YACgEYmuCJE_0","Space Grotesk":"YAHO2sjPCSM_0","Times":"YAGzXW3gftg_0","Times New Roman":"YAGzXW3gftg_0","Trebuchet MS":"YAFcfrglpVA_0","Verdana":"YAGzXTctYtQ_0","Work Sans":"YAGXhLOKv44_0","Yellowtail":"YACgEYG4kG4_0"}}');</script><script src="/_sdk/a27874207e105461.telemetry_sdk.js" integrity="sha512-wgI5N9F7oA2h3vH+benMYIv4wGqTct4nKWakqgvfgRyBLmfYq8q/fi6gkfWKd2hMsyN+VQ/qOAOpxybwkcoxlA=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Générateur Séquence EPS</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <style>
+    body { font-family: 'DM Sans', sans-serif; font-size: 16px; }
+    textarea.resize-none { resize: none; }
+    textarea.overflow-hidden { overflow: hidden; }
+    textarea.auto-height {
+      min-height: 1.5em;
+      height: auto;
+      max-height: 120px;
+      overflow-y: auto;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+    }
+    [contenteditable="true"] {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    #objective-1, #objective-2, #objective-3, #objective-4 {
+      color: #dc2626 !important;
+    }
+    .objective-number {
+      color: #dc2626;
+    }
+    .tab-active { border-bottom: 3px solid #1565C0; color: #1565C0; font-weight: 600; }
+    .section-header { background: linear-gradient(135deg, #0d47a1, #1976d2); }
+    .dark-section-bar { background: #1a237e; color: white; }
+    .session-card { border-radius: 12px; overflow: hidden; margin-bottom: 14px; background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border: 1px solid #e2e8f0; }
+    .session-card-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: linear-gradient(135deg, #1565C0, #1976D2); color: white; font-size: 1.05rem; }
+    .duration-pill { background: rgba(255,255,255,0.2); color: white; font-size: 0.85rem; padding: 5px 12px; border-radius: 20px; font-weight: 700; border: 1px solid rgba(255,255,255,0.4); }
+    .competency-tag { font-size: 0.75rem; padding: 4px 10px; border-radius: 4px; font-weight: 700; display: inline-block; margin-right: 4px; margin-bottom: 4px; }
+    .tag-d14 { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+    .tag-d2 { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+    .tag-d3 { background: #e3f2fd; color: #1565C0; border: 1px solid #90caf9; }
+    .tag-d4 { background: #fce4ec; color: #c62828; border: 1px solid #ef9a9a; }
+    .tag-d5 { background: #f3e5f5; color: #6a1b9a; border: 1px solid #ce93d8; }
+    .meta-line { color: #546e7a; font-size: 0.85rem; font-weight: 500; padding: 8px 16px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+    .phase-block { margin: 0; padding: 12px 16px; border-bottom: 1px solid #f1f5f9; display: flex; gap: 12px; }
+    .phase-block:last-child { border-bottom: none; }
+    .phase-indicator { width: 5px; border-radius: 4px; min-height: 100%; }
+    .phase-echauffement .phase-indicator { background: #ff9800; }
+    .phase-exercices .phase-indicator { background: #1565C0; }
+    .phase-bilan .phase-indicator { background: #4caf50; }
+    .phase-label { font-size: 0.7rem; text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 3px; }
+    .phase-echauffement .phase-label { background: #fff3e0; color: #e65100; }
+    .phase-exercices .phase-label { background: #e3f2fd; color: #1565C0; }
+    .phase-bilan .phase-label { background: #e8f5e9; color: #2e7d32; }
+    .phase-title { font-weight: 700; font-size: 0.95rem; color: #1e293b; }
+    .phase-duration { font-size: 0.8rem; background: #f1f5f9; color: #475569; padding: 3px 8px; border-radius: 4px; font-weight: 600; margin-left: auto; flex-shrink: 0; white-space: nowrap; display: inline-block; }
+    .phase-content { font-size: 0.9rem; color: #374151; line-height: 1.6; }
+    .phase-content li { margin-bottom: 4px; padding-left: 4px; }
+    .success-marker { display: inline-block; background: #e8f5e9; border-left: 3px solid #4caf50; color: #2e7d32; padding: 5px 10px; border-radius: 3px; font-size: 0.85rem; font-weight: 600; margin-top: 6px; }
+    .tip-marker { display: inline-block; background: #fff8e1; border-left: 3px solid #ffc107; color: #795548; padding: 5px 10px; border-radius: 3px; font-size: 0.85rem; font-weight: 500; margin-top: 6px; }
+    .eval-card { border: 2px solid; border-radius: 12px; overflow: hidden; margin-bottom: 14px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05); width: 100%; box-sizing: border-box; }
+    .eval-card-header { padding: 12px 16px; font-weight: 700; font-size: 1.05rem; color: white; }
+    .eval-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .eval-table th { padding: 6px 8px; font-weight: 700; text-transform: uppercase; font-size: 0.7rem; background: #37474f; color: white; }
+    .eval-table th:nth-child(1) { background: #37474f !important; width: 32%; }
+    .eval-table th:nth-child(2) { background: #c62828 !important; width: 17%; }
+    .eval-table th:nth-child(3) { background: #e65100 !important; width: 17%; }
+    .eval-table th:nth-child(4) { background: #2e7d32 !important; width: 17%; }
+    .eval-table th:nth-child(5) { background: #1b5e20 !important; width: 17%; }
+    .eval-table td { padding: 6px 8px; border: 1px solid #e5e7eb; white-space: pre-line; font-size: 0.8rem; }
+    .eval-table td:nth-child(1) { background: #f8fafc; }
+    .eval-editable:hover { background-color: #f3f4f6; }
+    .fiche-card { border: 2px solid #1565C0; border-radius: 12px; overflow: hidden; margin-bottom: 14px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .fiche-header { background: linear-gradient(135deg, #1565C0, #1976D2); color: white; padding: 14px 16px; font-size: 1.05rem; }
+    .toolbar-btn { padding: 7px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; border: none; transition: all 0.15s; }
+    .toolbar-btn:hover { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+    .btn-danger { background: #ef4444; color: white; }
+    .btn-primary { background: #1565C0; color: white; }
+    .btn-green { background: #16a34a; color: white; }
+    .btn-outline { background: white; color: #374151; border: 1px solid #d1d5db; }
+    .cycle-btn { padding: 7px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; border: 2px solid #1565C0; transition: all 0.15s; }
+    .cycle-btn.active { background: #1565C0; color: white; }
+    .cycle-btn:not(.active) { background: white; color: #1565C0; }
+    .info-card { border-radius: 12px; overflow: hidden; border: 2px solid; }
+    .info-card-header { padding: 12px 16px; font-weight: 700; font-size: 0.95rem; color: white; }
+    .ref-category { margin-bottom: 16px; }
+    .ref-category-title { font-weight: 700; font-size: 1rem; color: #1a237e; border-left: 4px solid #1565C0; padding-left: 12px; margin-bottom: 10px; }
+    .ref-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; }
+    .ref-item:last-child { border-bottom: none; }
+    .ref-item:hover { background: #f8fafc; }
+    .print-btn { position: fixed; top: 16px; right: 16px; z-index: 20; background: #1565C0; color: white; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 4px; box-shadow: 0 4px 12px rgba(21,101,192,0.3); }
+    @media print {
+      * { box-sizing: border-box; }
+      html { font-size: 12pt; }
+      body { 
+        background: white !important; 
+        color: #000 !important;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+      
+      .toolbar, .print-btn, .no-print, .cycle-btn, .toolbar-btn, .eval-title-select, nav { 
+        display: none !important; 
+      }
+      
+      header { 
+        background: linear-gradient(135deg, #0d47a1, #1976d2) !important; 
+        color: white !important; 
+        width: 100%;
+        padding: 12px 15px !important;
+        margin: 0;
+        page-break-after: avoid;
+        break-inside: avoid;
+      }
+      header h1 { 
+        color: white !important; 
+        font-size: 24pt !important;
+        margin: 0;
+        padding: 0;
+      }
+      
+      main { 
+        max-width: 100% !important; 
+        padding: 8px 15px !important; 
+        margin: 0 !important;
+      }
+      
+      section { 
+        display: block !important; 
+        width: 100%;
+        page-break-before: avoid;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      
+      .dark-section-bar { 
+        background: #1a237e !important;
+        color: white !important; 
+        font-weight: bold !important;
+        padding: 12px 15px !important;
+        margin: 20px 0 15px 0 !important;
+        page-break-after: avoid;
+        break-inside: avoid;
+        width: 100%;
+        font-size: 11pt;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-align: center !important;
+        border-radius: 8px !important;
+      }
+      
+      #sessions-container,
+      #referentiel-container,
+      #evals-container,
+      #fiches-container {
+        page-break-inside: auto;
+      }
+      
+      .info-card { 
+        border: 2px solid !important; 
+        overflow: hidden;
+        margin-bottom: 8px;
+        background: white !important;
+        page-break-inside: avoid;
+        box-shadow: none !important;
+        border-radius: 12px !important;
+      }
+      .info-card-header { 
+        padding: 8px 12px; 
+        font-weight: 700; 
+        font-size: 10pt; 
+        color: white !important; 
+        text-align: center !important;
+        background: linear-gradient(135deg, var(--header-color, #1565C0), var(--header-color-light, #1976D2)) !important;
+      }
+      
+      .info-card[style*="border-color: #2e7d32"] .info-card-header {
+        background: #2e7d32 !important;
+      }
+      .info-card[style*="border-color: #e65100"] .info-card-header {
+        background: #e65100 !important;
+      }
+      .info-card[style*="border-color: #1565C0"] .info-card-header {
+        background: #1565C0 !important;
+      }
+      
+      .grid { display: flex; flex-direction: column; gap: 8px; }
+      .md\:grid-cols-2 { display: flex; flex-direction: column; }
+      
+      .session-card { 
+        border: 1px solid #e2e8f0 !important; 
+        overflow: hidden;
+        margin-bottom: 10px;
+        background: white !important;
+        page-break-inside: avoid;
+        box-shadow: none !important;
+        border-radius: 12px !important;
+      }
+      .session-card-header { 
+        background: linear-gradient(135deg, #1565C0, #1976D2) !important;
+        color: white !important;
+        font-weight: bold !important;
+        padding: 8px 12px !important;
+        break-inside: avoid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 10pt;
+        text-align: center !important;
+      }
+      .duration-pill { 
+        background: rgba(255,255,255,0.2) !important;
+        color: white !important;
+        border: 1px solid rgba(255,255,255,0.4) !important;
+        padding: 3px 10px !important;
+        border-radius: 20px !important;
+        font-size: 8pt !important;
+        font-weight: bold !important;
+        white-space: nowrap !important;
+        display: inline-block !important;
+      }
+      
+      .meta-line { 
+        background: #f8fafc !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+        padding: 4px 12px !important;
+        font-size: 7pt;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        align-items: center;
+      }
+      
+      .phase-block { 
+        page-break-inside: avoid;
+        padding: 6px 12px !important;
+        border-bottom: 1px solid #f1f5f9;
+        display: block !important;
+      }
+      .phase-block:last-child { border-bottom: none; }
+      
+      .phase-indicator { 
+        width: 4px;
+        border-radius: 4px;
+        min-height: 100%;
+        flex-shrink: 0;
+        margin-right: 10px;
+        display: inline-block;
+        vertical-align: top;
+        margin-bottom: 8px;
+      }
+      .phase-echauffement .phase-indicator { background: #ff9800 !important; }
+      .phase-exercices .phase-indicator { background: #1565C0 !important; }
+      .phase-bilan .phase-indicator { background: #4caf50 !important; }
+      
+      .phase-label { 
+        font-size: 0.55rem;
+        padding: 1px 5px !important;
+        border-radius: 3px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .phase-echauffement .phase-label { background: #fff3e0 !important; color: #e65100 !important; }
+      .phase-exercices .phase-label { background: #e3f2fd !important; color: #1565C0 !important; }
+      .phase-bilan .phase-label { background: #e8f5e9 !important; color: #2e7d32 !important; }
+      
+      .phase-title { 
+        font-weight: 700 !important; 
+        font-size: 0.75rem; 
+        color: #1e293b !important;
+      }
+      .phase-duration { 
+        font-size: 8pt !important; 
+        background: #f1f5f9 !important; 
+        color: #475569 !important; 
+        padding: 1px 6px !important; 
+        border-radius: 4px; 
+        font-weight: 600;
+        white-space: nowrap !important;
+        display: block !important;
+        text-align: right !important;
+        margin-top: 4px !important;
+      }
+      
+      .phase-content { 
+        font-size: 0.75rem; 
+        color: #374151 !important; 
+        line-height: 1.5;
+        margin: 6px 0 0 0 !important;
+        padding: 0 0 0 3px !important;
+        list-style: none !important;
+      }
+      .phase-content li { 
+        margin-bottom: 2px;
+        list-style: none !important;
+        padding-left: 0 !important;
+      }
+      .phase-content li::before {
+        content: none;
+      }
+      
+      .success-marker { 
+        display: inline-block;
+        background: #e8f5e9 !important;
+        border-left: 3px solid #4caf50 !important;
+        color: #2e7d32 !important;
+        padding: 3px 8px !important;
+        border-radius: 3px;
+        font-size: 0.7rem !important;
+        font-weight: 600;
+        margin-top: 4px;
+        page-break-inside: avoid;
+      }
+      .tip-marker { 
+        display: inline-block;
+        background: #fff8e1 !important;
+        border-left: 3px solid #ffc107 !important;
+        color: #795548 !important;
+        padding: 3px 8px !important;
+        border-radius: 3px;
+        font-size: 0.7rem !important;
+        font-weight: 500;
+        margin-top: 4px;
+        page-break-inside: avoid;
+      }
+      
+      .eval-card { 
+        border: 2px solid !important;
+        overflow: hidden;
+        margin-bottom: 6px;
+        background: white !important;
+        page-break-inside: avoid;
+        box-shadow: none !important;
+        border-radius: 8px !important;
+      }
+      .eval-card-header {
+        color: white !important;
+        font-weight: 700 !important;
+        padding: 5px 8px !important;
+        font-size: 0.73rem;
+        text-align: center !important;
+        line-height: 1.25 !important;
+      }
+      @media print {
+        .eval-card { 
+          border: 2px solid !important;
+          overflow: hidden;
+          margin-bottom: 5px;
+          background: white !important;
+          page-break-inside: avoid;
+          box-shadow: none !important;
+          border-radius: 6px !important;
+        }
+        .eval-card[style*="border-color: #2e7d32"] .eval-card-header {
+          background: #2e7d32 !important;
+        }
+        .eval-card[style*="border-color: #e65100"] .eval-card-header {
+          background: #e65100 !important;
+        }
+        .eval-card[style*="border-color: #1565C0"] .eval-card-header {
+          background: #1565C0 !important;
+        }
+        .eval-card[style*="border-color: #00695C"] .eval-card-header {
+          background: #00695C !important;
+        }
+        .eval-card-header {
+          color: white !important;
+          font-weight: 700 !important;
+          padding: 5px 8px !important;
+          break-inside: avoid;
+          width: 100%;
+          font-size: 0.7rem;
+          text-align: center !important;
+          display: block !important;
+          white-space: normal !important;
+          word-wrap: break-word !important;
+          overflow-wrap: break-word !important;
+          line-height: 1.2 !important;
+        }
+        .eval-card-header > div {
+          display: block !important;
+          width: 100% !important;
+        }
+        .eval-score-row {
+          display: none !important;
+        }
+      }
+      
+      textarea {
+        border: none !important;
+        outline: none !important;
+        background: transparent !important;
+      }
+      input {
+        border: none !important;
+        outline: none !important;
+        background: transparent !important;
+      }
+      
+      .eval-table { 
+        border-collapse: collapse; 
+        width: 100% !important; 
+        font-size: 0.7rem;
+        margin: 0 !important;
+      }
+      .eval-table th { 
+        background: #37474f !important; 
+        color: white !important; 
+        font-weight: 700 !important;
+        padding: 4px 6px !important;
+        border: 1px solid #e5e7eb !important;
+        text-align: left;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+      }
+      .eval-table th:nth-child(1) { background: #37474f !important; width: 20%; color: white !important; }
+      .eval-table th:nth-child(2) { background: #c62828 !important; width: 20%; color: white !important; }
+      .eval-table th:nth-child(3) { background: #e65100 !important; width: 20%; color: white !important; }
+      .eval-table th:nth-child(4) { background: #2e7d32 !important; width: 20%; color: white !important; }
+      .eval-table th:nth-child(5) { background: #1b5e20 !important; width: 20%; color: white !important; }
+      .eval-table th:nth-child(5) { background: #1b5e20 !important; width: 20%; color: white !important; }
+      .eval-table td { 
+        border: 1px solid #e5e7eb !important; 
+        padding: 4px 6px !important;
+        vertical-align: top;
+        font-size: 0.7rem;
+        word-break: break-word;
+        white-space: pre-line;
+      }
+      .eval-table td:nth-child(1) { background: #f8fafc !important; }
+      
+      .fiche-card { 
+        border: 2px solid #1565C0 !important;
+        overflow: hidden;
+        margin-bottom: 8px;
+        background: white !important;
+        page-break-inside: avoid;
+        box-shadow: none !important;
+        border-radius: 12px !important;
+      }
+      .fiche-header {
+        background: linear-gradient(135deg, #1565C0, #1976D2) !important;
+        color: white !important;
+        font-weight: bold !important;
+        padding: 8px 12px !important;
+        break-inside: avoid;
+        font-size: 0.8rem;
+      }
+      
+      .ref-category { 
+        page-break-inside: avoid; 
+        margin-bottom: 8px;
+        border: 1px solid #e2e8f0 !important;
+        background: white !important;
+        overflow: hidden;
+        border-radius: 12px !important;
+      }
+      .ref-category-title { 
+        color: #1a237e !important; 
+        font-weight: 700 !important;
+        break-inside: avoid;
+        background: #f8fafc !important;
+        border-left: 4px solid #1565C0 !important;
+        padding: 4px 10px !important;
+        margin-bottom: 0 !important;
+        font-size: 0.85rem;
+      }
+      .ref-item { 
+        padding: 4px 10px !important;
+        border-bottom: 1px solid #f1f5f9 !important;
+        font-size: 0.75rem;
+        page-break-inside: avoid;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ref-item:last-child { border-bottom: none !important; }
+      
+      .competency-tag { 
+        font-size: 0.65rem !important;
+        padding: 3px 8px !important;
+        margin-right: 4px !important;
+        margin-bottom: 4px !important;
+        border-radius: 4px !important;
+        display: inline-block;
+        font-weight: 700;
+      }
+      
+      /* Print layout: grid for cards on first page */
+      @page { 
+        size: A4; 
+        margin: 10px;
+      }
+      
+      @media print {
+        /* First page: Aperçu section - END with page break */
+        #tab-apercu {
+          page-break-after: always !important;
+        }
+        
+        /* Evaluation page - END with page break */
+        #tab-evaluation {
+          page-break-after: always !important;
+        }
+        
+        /* Fiches page - END with page break */
+        #tab-fiches {
+          page-break-after: always !important;
+        }
+        
+        /* Referentiel continues without forced break */
+        #tab-referentiel {
+          page-break-after: auto;
+        }
+        
+        /* APERÇU PAGE LAYOUT */
+        #tab-apercu {
+          display: flex;
+          flex-direction: column;
+          page-break-inside: avoid;
+        }
+        
+        #tab-apercu > div:first-child {
+          page-break-inside: avoid;
+          margin-bottom: 8px;
+        }
+        
+        /* Sequence title bar at top */
+        [data-template-id="sequence-title-bar"] {
+          page-break-inside: avoid;
+          margin-bottom: 8px !important;
+        }
+        
+        /* Two-column grid for Ancrage + Organisation cards */
+        #tab-apercu > .grid {
+          display: grid !important;
+          grid-template-columns: 1fr 1fr !important;
+          gap: 8px !important;
+          page-break-inside: avoid;
+          margin-bottom: 8px !important;
+        }
+        
+        #tab-apercu > .grid .info-card {
+          page-break-inside: avoid;
+          margin-bottom: 0 !important;
+        }
+        
+        /* Sequence objectives card full width */
+        #tab-apercu > .info-card {
+          page-break-inside: avoid;
+          margin-bottom: 8px !important;
+        }
+        
+        /* Section title full width */
+        [data-template-id="apercu-section-title"] {
+          page-break-inside: avoid;
+          margin-bottom: 8px !important;
+        }
+        
+        /* Sessions flow below */
+        #sessions-container {
+          display: flex;
+          flex-direction: column;
+          page-break-inside: auto;
+        }
+        
+        .session-card {
+          page-break-inside: avoid;
+          margin-bottom: 8px !important;
+        }
+        
+        /* EVALUATION PAGE LAYOUT */
+        #tab-evaluation {
+          page-break-before: always !important;
+        }
+        
+        [data-template-id="eval-section-title"] {
+          page-break-inside: avoid;
+          margin-bottom: 8px !important;
+        }
+        
+        /* Evaluation page optimization - single column layout */
+        #evals-container {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 4px !important;
+          page-break-inside: auto;
+        }
+        
+        .eval-card {
+          page-break-inside: avoid;
+          margin-bottom: 0 !important;
+        }
+        
+        .eval-table {
+          font-size: 0.7rem !important;
+        }
+        
+        .eval-table th {
+          padding: 3px 4px !important;
+          font-size: 0.6rem !important;
+        }
+        
+        .eval-table td {
+          padding: 3px 4px !important;
+          font-size: 0.65rem !important;
+        }
+        
+        /* FICHES PAGE LAYOUT */
+        [data-template-id="fiches-section-title"] {
+          page-break-inside: avoid;
+          margin-bottom: 8px !important;
+        }
+        
+        #fiches-container {
+          display: flex;
+          flex-direction: column;
+          page-break-inside: auto;
+        }
+        
+        .fiche-card {
+          page-break-inside: avoid;
+          margin-bottom: 8px !important;
+        }
+        
+        /* REFERENTIEL PAGE LAYOUT */
+        #ref-section-title-wrapper {
+          page-break-inside: avoid;
+          margin-bottom: 8px !important;
+        }
+        
+        #referentiel-container {
+          display: flex;
+          flex-direction: column;
+          page-break-inside: auto;
+        }
+        
+        .ref-category {
+          page-break-inside: avoid;
+          margin-bottom: 8px !important;
+        }
+      }
+  </style>
+  <script src="/_sdk/935a53bc2e11fb8d.data_sdk.js" type="text/javascript" integrity="sha512-qr2oyPnEys1WebcOABaRh6hG77r5PWpqeWW6JTKbRJqly/INsfBi31CVNlTmHqjgeLpkVmmHZJUdxSx/32tOFQ=="></script>
+  <script src="/_sdk/6030e540d4419216.resizing_sdk.js" type="text/javascript" integrity="sha512-b5KWzyoXsbWP4smq4sftIi6Kts4YVBpBsz0BwCViwbBJkK64a3/Z6ZMdWA+qnplNcXw4mhZeqvQi3mOosiRJdA=="></script>
+ </head>
+ <body data-template-id="__page-root" class="min-h-screen w-full"><button class="print-btn" onclick="window.print()" title="Imprimer"><i data-lucide="printer" style="width:18px;height:18px;"></i> Imprimer</button>
+  <header class="section-header text-white p-3 pb-2">
+   <style>
+    #page-root-header [contenteditable="true"]:focus {
+      background-color: rgba(255,255,255,0.2);
+      outline: 2px solid rgba(255,255,255,0.4);
+    }
+    @media print {
+      [contenteditable="true"] {
+        border: none !important;
+        outline: none !important;
+        background: transparent !important;
+      }
+    }
+  </style>
+   <div class="max-w-6xl mx-auto text-center">
+    <h1 data-template-id="main-title" class="canva-text text-2xl font-bold" style="cursor:text;padding:4px 8px;border-radius:4px;transition:background 0.15s;">📚 Créateur de Séquence EPS</h1>
+   </div>
+  </header>
+  <div class="toolbar bg-white border-b px-4 py-3">
+   <div class="max-w-6xl mx-auto flex flex-wrap gap-3 items-center text-sm"><span class="text-xs font-semibold text-gray-500 uppercase">Cycle :</span> <button class="cycle-btn active" id="btn-cycle3">Cycle 3</button> <button class="cycle-btn" id="btn-cycle4">Cycle 4</button> <span class="w-px h-6 bg-gray-300 mx-2"></span> <button class="toolbar-btn btn-danger" id="btn-reset"><i data-lucide="rotate-ccw" style="width:16px;height:16px;"></i> Nouvelle séquence</button> <span class="w-px h-6 bg-gray-300 mx-2"></span> <span class="text-xs font-semibold text-gray-500 uppercase">Séances :</span> <button class="toolbar-btn btn-outline" id="btn-remove-session"><i data-lucide="minus" style="width:16px;height:16px;"></i></button> <span class="text-sm font-bold text-gray-700" id="session-count">6</span> <button class="toolbar-btn btn-green" id="btn-add-session"><i data-lucide="plus" style="width:16px;height:16px;"></i></button> <span class="w-px h-6 bg-gray-300 mx-2"></span> <span class="text-xs font-semibold text-gray-500 uppercase">Compétences :</span> <button class="toolbar-btn btn-outline" id="btn-remove-eval"><i data-lucide="minus" style="width:16px;height:16px;"></i></button> <span class="text-sm font-bold text-gray-700" id="eval-count">4</span> <button class="toolbar-btn btn-primary" id="btn-add-eval"><i data-lucide="plus" style="width:16px;height:16px;"></i></button>
+   </div>
+  </div>
+  <nav class="bg-white border-b sticky top-0 z-10">
+   <div class="max-w-6xl mx-auto flex"><button class="tab-btn tab-active px-4 py-3 text-sm" data-tab="apercu">📋 Aperçu</button> <button class="tab-btn px-4 py-3 text-sm text-gray-500" data-tab="evaluation">📊 Évaluation</button> <button class="tab-btn px-4 py-3 text-sm text-gray-500" data-tab="fiches">📄 Fiches</button> <button class="tab-btn px-4 py-3 text-sm text-gray-500" data-tab="referentiel">📚 Référentiel</button>
+   </div>
+  </nav>
+  <main class="max-w-6xl mx-auto p-4 space-y-3">
+   <section id="tab-apercu">
+    <div data-template-id="sequence-title-bar" class="canva-text dark-section-bar rounded-lg px-3 py-2 mb-3 font-bold text-xs uppercase text-center"><span contenteditable="true" style="cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="this.textContent = this.textContent">SÉQUENCE DANSE — CLASSE DE 6ÈMES (SÉANCES DE 2H)</span>
+    </div>
+    <div class="grid md:grid-cols-2 gap-2 mb-3">
+     <div class="info-card" style="border-color: #2e7d32;">
+      <div class="info-card-header" style="background: linear-gradient(135deg, #2e7d32, #43a047); text-align: center;">
+       <span data-template-id="ancrage-title" class="canva-text text-xs">🎯 ANCRAGE INSTITUTIONNEL &amp; COMPÉTENCES</span>
+      </div>
+      <div data-template-id="ancrage-card" class="canva-card p-2 space-y-2">
+       <div>
+        <span class="text-xs font-bold text-gray-700 block leading-tight">Champ d'Apprentissage :</span> <span id="ancrage-field-ca" data-template-id="ancrage-field-ca" contenteditable="true" class="canva-input text-xs inline-block cursor-text break-words max-w-full" style="padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="document.getElementById('ancrage-field-ca').textContent = document.getElementById('ancrage-field-ca').textContent"></span>
+       </div>
+       <div>
+        <span class="text-xs font-bold text-gray-700 block leading-tight">Domaines du Socle :</span> <span id="ancrage-field-domaines" data-template-id="ancrage-field-domaines" contenteditable="true" class="canva-input text-xs inline-block cursor-text break-words max-w-full" style="padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="document.getElementById('ancrage-field-domaines').textContent = document.getElementById('ancrage-field-domaines').textContent"></span>
+       </div>
+      </div>
+     </div>
+     <div class="info-card" style="border-color: #e65100;">
+      <div class="info-card-header" style="background: linear-gradient(135deg, #e65100, #f57c00); text-align: center;">
+       <span data-template-id="orga-title" class="canva-text text-xs">🏫 ORGANISATION &amp; MATÉRIEL</span>
+      </div>
+      <div data-template-id="orga-card" class="canva-card p-2 space-y-2">
+       <div>
+        <span class="text-xs font-bold text-gray-700 block leading-tight">Format des cours :</span> <span id="orga-field-format" data-template-id="orga-field-format" contenteditable="true" class="canva-input text-xs inline-block cursor-text break-words max-w-full" style="padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="document.getElementById('orga-field-format').textContent = document.getElementById('orga-field-format').textContent"></span>
+       </div>
+       <div>
+        <span class="text-xs font-bold text-gray-700 block leading-tight">Matériel :</span> <span id="orga-field-materiel" data-template-id="orga-field-materiel" contenteditable="true" class="canva-input text-xs inline-block cursor-text break-words max-w-full" style="padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="document.getElementById('orga-field-materiel').textContent = document.getElementById('orga-field-materiel').textContent"></span>
+       </div>
+       <div>
+        <span class="text-xs font-bold text-gray-700 block leading-tight">Outils &amp; Documents :</span> <span id="orga-field-outils" data-template-id="orga-field-outils" contenteditable="true" class="canva-input text-xs inline-block cursor-text break-words max-w-full" style="padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="document.getElementById('orga-field-outils').textContent = document.getElementById('orga-field-outils').textContent"></span>
+       </div>
+       <div>
+        <span class="text-xs font-bold text-gray-700 block leading-tight">Objectif du Cycle :</span> <span id="orga-field-objectif" data-template-id="orga-field-objectif" contenteditable="true" class="canva-input text-xs inline-block cursor-text break-words max-w-full" style="padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="document.getElementById('orga-field-objectif').textContent = document.getElementById('orga-field-objectif').textContent"></span>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="info-card mb-3" style="border-color: #1565C0;">
+     <div class="info-card-header" style="background: linear-gradient(135deg, #1565C0, #1976D2); text-align: center;">
+      <span data-template-id="sequence-objective-title" class="canva-text text-xs">🎬 OBJECTIF GLOBAL DE LA SÉQUENCE</span>
+     </div>
+     <div data-template-id="sequence-objective-content" class="canva-card p-2 space-y-1">
+      <div class="flex items-start gap-1">
+       <span class="font-bold objective-number flex-shrink-0 text-xs pt-0.5">1.</span><span id="objective-1" data-template-id="objective-1" contenteditable="true" class="canva-input flex-1 text-xs font-bold inline-block cursor-text break-words" style="padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="document.getElementById('objective-1').textContent = document.getElementById('objective-1').textContent"></span>
+      </div>
+      <div class="flex items-start gap-1">
+       <span class="font-bold objective-number flex-shrink-0 text-xs pt-0.5">2.</span><span id="objective-2" data-template-id="objective-2" contenteditable="true" class="canva-input flex-1 text-xs font-bold inline-block cursor-text break-words" style="padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="document.getElementById('objective-2').textContent = document.getElementById('objective-2').textContent"></span>
+      </div>
+      <div class="flex items-start gap-1">
+       <span class="font-bold objective-number flex-shrink-0 text-xs pt-0.5">3.</span><span id="objective-3" data-template-id="objective-3" contenteditable="true" class="canva-input flex-1 text-xs font-bold inline-block cursor-text break-words" style="padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="document.getElementById('objective-3').textContent = document.getElementById('objective-3').textContent"></span>
+      </div>
+      <div class="flex items-start gap-1">
+       <span class="font-bold objective-number flex-shrink-0 text-xs pt-0.5">4.</span><span id="objective-4" data-template-id="objective-4" contenteditable="true" class="canva-input flex-1 text-xs font-bold inline-block cursor-text break-words" style="padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="document.getElementById('objective-4').textContent = document.getElementById('objective-4').textContent"></span>
+      </div>
+     </div>
+    </div>
+    <div data-template-id="apercu-section-title" class="canva-text dark-section-bar rounded-lg px-3 py-2 mb-2 font-bold text-xs uppercase text-center">
+     ⏱️ APERÇU DÉTAILLÉ DE LA SÉQUENCE (PROGRESSION SÉANCE PAR SÉANCE)
+    </div>
+    <div id="sessions-container"></div>
+   </section>
+   <section id="tab-referentiel" class="hidden">
+    <div id="ref-section-title-wrapper" class="dark-section-bar rounded-lg px-3 py-2 mb-2 font-bold text-xs uppercase"></div>
+    <div id="referentiel-container"></div>
+   </section>
+   <section id="tab-evaluation" class="hidden">
+    <div data-template-id="eval-section-title" class="canva-text dark-section-bar rounded-lg px-3 py-2 mb-2 font-bold text-xs uppercase text-center">
+     📋 TABLEAU D'ÉVALUATION DES COMPÉTENCES
+    </div>
+    <div id="evals-container"></div>
+   </section>
+   <section id="tab-fiches" class="hidden">
+    <div data-template-id="fiches-section-title" class="canva-text dark-section-bar rounded-lg px-3 py-2 mb-2 font-bold text-xs uppercase text-center">
+     📄 FICHES DE TERRAIN ENSEIGNANT
+    </div>
+    <div id="fiches-container"></div>
+   </section>
+  </main>
+  <script src="/_sdk/1b56991da13617fe.editing_sdk.js" integrity="sha512-7QHNPLPvkV/StrSqMG/kmvYbG8mJP4lGjSAmVe52ZYilblz47/1vWJa6sAdgi1w/a7EbAadWwTEJWNjrpiUkfg=="></script>
+  <script>
+    const referentielCycle3 = [
+      { category: "S'approprier seul ou à plusieurs par la pratique, les méthodes et outils pour apprendre", items: [
+        { text: "Apprendre par l'action, l'observation, l'analyse de son activité et de celle des autres.", domains: ["D1.4","D2"] },
+        { text: "Répéter un geste pour le stabiliser et le rendre plus efficace.", domains: ["D1.4","D2"] },
+        { text: "Utiliser des outils numériques pour observer, évaluer et modifier ses actions.", domains: ["D1.4","D2"] },
+        { text: "Valider le savoir nager.", domains: ["D1.4","D2"] },
+        { text: "Entrer dans l'eau et ressortir (groupe débutant).", domains: ["D1.4"] },
+        { text: "Se déplacer dans l'eau (groupe débutant).", domains: ["D1.4"] },
+        { text: "Lire une carte et s'orienter.", domains: ["D1.4","D2"] },
+        { text: "S'organiser pour accéder régulièrement à la zone de marque.", domains: ["D1.4"] },
+        { text: "Rester statique tête hors de l'eau.", domains: ["D1.4"] },
+        { text: "Être capable d'effectuer une coulée ventrale.", domains: ["D1.4"] },
+        { text: "Coordonner des solutions motrices et ventilatoires.", domains: ["D1.4"] },
+        { text: "Adopter une attitude de travail.", domains: ["D1.4","D2"] },
+        { text: "Observer avec attention et apprécier avec respect les prestations.", domains: ["D1.4","D2"] },
+        { text: "Coopérer dans les situations d'apprentissage.", domains: ["D1.4","D2"] },
+        { text: "S'approprier les principes d'un échauffement adapté à la pratique physique.", domains: ["D1.4","D4"] },
+        { text: "Observer et remplir correctement une fiche de travail afin de permettre à mes camarades de progresser.", domains: ["D1.4","D2"] }
+      ]},
+      { category: "Partager des règles, assumer des rôles et des responsabilités", items: [
+        { text: "Assumer les rôles sociaux spécifiques aux différentes APSA et à la classe.", domains: ["D1.4","D3"] },
+        { text: "Comprendre, respecter et faire respecter règles et règlements.", domains: ["D1.4","D3"] },
+        { text: "Assurer sa sécurité et celle d'autrui dans des situations variées.", domains: ["D1.4","D3"] },
+        { text: "S'engager dans les activités sportives et artistiques collectives.", domains: ["D1.4","D3"] },
+        { text: "Assumer les rôles de chronométreurs et d'observateurs en utilisant des outils de mesures simples.", domains: ["D1.4","D3"] },
+        { text: "Coopérer pour attaquer et défendre une cible (sports d'opposition).", domains: ["D1.4","D3"] },
+        { text: "Respecter les partenaires, les adversaires et jouer de manière fairplay.", domains: ["D1.4","D3"] },
+        { text: "S'exprimer devant les autres par une prestation artistique et/ou acrobatique.", domains: ["D1.4","D3"] },
+        { text: "Adopter une attitude de travail.", domains: ["D1.4","D3"] },
+        { text: "Exprimer ses idées, écouter les autres et accepter la décision collective.", domains: ["D1.4","D3"] },
+        { text: "Être capable d'auto-arbitrer un match.", domains: ["D1.4","D3"] }
+      ]},
+      { category: "Apprendre à entretenir sa santé par une activité physique régulière", items: [
+        { text: "Évaluer la quantité et la qualité de son activité physique quotidienne dans et hors l'école.", domains: ["D1.4","D4"] },
+        { text: "Connaître et appliquer des principes d'une bonne hygiène de vie.", domains: ["D1.4","D4"] },
+        { text: "Adapter l'intensité de son engagement physique à ses possibilités pour ne pas se mettre en danger.", domains: ["D1.4","D4"] },
+        { text: "Savoir situer des performances à l'échelle de la performance humaine.", domains: ["D1.4","D5"] },
+        { text: "Comprendre et respecter l'environnement des pratiques physiques et sportives.", domains: ["D1.4","D4"] },
+        { text: "S'investir dans ses apprentissages.", domains: [] }
+      ]},
+      { category: "Développer sa motricité et construire un langage du corps", items: [
+        { text: "Adapter sa motricité à des situations variées.", domains: ["D1.4"] },
+        { text: "Acquérir des techniques spécifiques pour améliorer son efficacité.", domains: ["D1.4"] },
+        { text: "Mobiliser différentes ressources (physiologique, biomécanique, psychologique, émotionnelle) pour agir de manière efficiente.", domains: ["D1.4"] },
+        { text: "Conduire son déplacement sans appréhension et en toute sécurité (natation, escalade).", domains: ["D1.4"] },
+        { text: "Adapter son jeu et ses actions aux adversaires et à ses partenaires.", domains: ["D1.4"] },
+        { text: "Réaliser des formes corporelles et des gestes simples en jouant sur les composantes du mouvement.", domains: ["D1.4"] },
+        { text: "Réaliser des actions décisives afin de faire basculer le rapport de force en sa faveur.", domains: ["D1.4"] },
+        { text: "Exécuter une chorégraphie composée de pas de bases synchronisée avec la musique et les partenaires.", domains: ["D1.4"] },
+        { text: "Maintenir un engagement moteur efficace sur le temps de jeu prévu.", domains: ["D1.4"] },
+        { text: "Acquérir le test d'aisance aquatique.", domains: ["D1.4"] }
+      ]},
+      { category: "S'approprier une culture physique sportive et artistique", items: [
+        { text: "Savoir situer des performances à l'échelle de la performance humaine.", domains: ["D1.4","D5"] },
+        { text: "Comprendre et respecter l'environnement des pratiques physiques et sportives.", domains: ["D1.4","D5"] },
+        { text: "Prendre des repères extérieurs et des repères sur son corps pour contrôler ses efforts et son déplacement.", domains: ["D1.4","D5"] },
+        { text: "Connaître et comprendre les difficultés des figures proposées.", domains: ["D1.4","D2"] },
+        { text: "Savoir accepter l'échec.", domains: ["D1.4","D3"] },
+        { text: "Savoir s'échauffer en autonomie.", domains: [] }
+      ]},
+      { category: "Réaliser des efforts et enchaîner plusieurs actions motrices dans différentes familles pour aller plus vite et plus loin", items: [
+        { text: "Construire et maintenir une vitesse de course.", domains: ["D1.4"] },
+        { text: "Acquérir des techniques spécifiques pour concevoir une prise d'élan et lancer efficacement.", domains: ["D1.4"] }
+      ]}
+    ];
+
+    const referentielCycle4 = [
+      { category: "Développer sa motricité et construire un langage du corps", items: [
+        { text: "Acquérir des techniques spécifiques pour améliorer son efficience", domains: ["D1.4"] },
+        { text: "Communiquer des intentions et des émotions avec son corps devant un groupe", domains: ["D1.4"] },
+        { text: "Verbaliser les émotions et sensations ressenties", domains: ["D1.4"] },
+        { text: "Utiliser un vocabulaire adapté pour décrire la motricité d'autrui et la sienne", domains: ["D1.4"] },
+        { text: "Acquérir et stabiliser des techniques spécifiques pour réaliser un entraînement adapté à son niveau de pratique", domains: ["D1.4"] },
+        { text: "Réaliser des actions décisives afin de faire basculer le rapport de force en sa faveur", domains: ["D1.4"] },
+        { text: "Acquérir et stabiliser des techniques spécifiques pour construire et mettre en œuvre un projet de jeu pour battre l'adversaire", domains: ["D1.4"] },
+        { text: "S'engager dans un programme de préparation individuel", domains: ["D1.4"] },
+        { text: "Développer des capacités pour maîtriser deux allures de courses différentes", domains: ["D1.4"] },
+        { text: "Réaliser des figures plus complexes, dans le respect des règles de sécurité et des principes d'efficacité, pour optimiser le rapport risque-maîtrise", domains: ["D1.4"] },
+        { text: "Agir en sécurité et maîtriser ses gestes pour préserver l'intégrité physique de l'adversaire ou du partenaire", domains: ["D1.4"] },
+        { text: "S'adapter rapidement au changement de statut Attaquant / Défenseur", domains: ["D1.4"] },
+        { text: "Être un pratiquant de WOD soucieux de sa sécurité", domains: ["D1.4"] },
+        { text: "Produire une performance combinée à un moment donné", domains: ["D1.4"] },
+        { text: "Concevoir et présenter une prestation corporelle gymnique / artistique", domains: ["D1.4"] },
+        { text: "Mobiliser les capacités expressives du corps pour imaginer, composer et interpréter une séquence acrobatique ou artistique", domains: ["D1.4"] },
+        { text: "Adopter un itinéraire et un déplacement optimisé pour réaliser un parcours le plus efficacement possible (course d'orientation)", domains: ["D1.4"] },
+        { text: "Adopter une posture optimale permettant un tir efficace", domains: ["D1.4"] },
+        { text: "Être capable de se démarquer et de proposer une solution pour permettre le jeu vers l'avant", domains: ["D1.4"] }
+      ]},
+      { category: "S'approprier seul ou à plusieurs par la pratique, les méthodes et outils pour apprendre", items: [
+        { text: "Préparer-planifier-se représenter une action avant de la réaliser", domains: ["D1.4","D2"] },
+        { text: "Répéter un geste sportif ou artistique pour le stabiliser et le rendre plus efficace", domains: ["D1.4","D2"] },
+        { text: "Construire et mettre en œuvre des projets d'apprentissage individuels ou collectifs", domains: ["D1.4","D2"] },
+        { text: "Utiliser des outils numériques pour analyser et évaluer ses actions et celles des autres", domains: ["D1.4","D2"] },
+        { text: "Coopérer dans les situations d'apprentissages", domains: ["D1.4","D2"] },
+        { text: "S'approprier les principes d'un échauffement adapté à la pratique physique", domains: ["D1.4","D2"] },
+        { text: "Analyser et réguler un projet", domains: ["D1.4","D2"] },
+        { text: "Lire une carte et être capable de s'orienter", domains: ["D1.4","D2"] },
+        { text: "Aider un camarade dans la réalisation de son projet de course", domains: ["D1.4","D2"] },
+        { text: "Être un concepteur de WOD conscient de ses capacités", domains: ["D1.4","D2"] }
+      ]},
+      { category: "Partager des règles, assumer des rôles et des responsabilités", items: [
+        { text: "Respecter, construire et faire respecter règles et règlements", domains: ["D1.4","D3"] },
+        { text: "Accepter la défaite et gagner avec modestie et simplicité", domains: ["D1.4","D3"] },
+        { text: "Prendre et assumer des responsabilités au sein d'un collectif pour réaliser un projet ou remplir un contrat", domains: ["D1.4","D3"] },
+        { text: "Agir avec et pour les autres, en prenant en compte les différences", domains: ["D1.4","D3"] },
+        { text: "Observer et être capable de donner des conseils simples à un joueur ou à une équipe tout en l'encourageant (coach)", domains: ["D1.4","D3"] },
+        { text: "Être capable de regarder et d'apprécier le travail d'un de ses pairs (spectateur)", domains: ["D1.4","D3"] },
+        { text: "Être capable de proposer des idées pour rythmer une production scénique (chorégraphe)", domains: ["D1.4","D3"] },
+        { text: "Conduire un déplacement sans appréhension et en toute sécurité (course d'orientation)", domains: ["D1.4","D3"] },
+        { text: "S'investir dans ses apprentissages", domains: ["D1.4","D3"] },
+        { text: "Adopter une attitude de travail", domains: ["D1.4","D3"] },
+        { text: "Remplir correctement une fiche d'observation pour pouvoir aider un camarade", domains: ["D1.4","D3"] },
+        { text: "Être un juge reconnu", domains: ["D1.4","D3"] },
+        { text: "Participer activement à l'élaboration d'un projet collectif", domains: ["D1.4","D3"] },
+        { text: "Être capable d'auto-arbitrer un match avec justesse et fairplay", domains: ["D1.4","D3"] },
+        { text: "Observer et être capable de donner des conseils simples à son athlète (Coach/juge)", domains: ["D1.4","D3"] }
+      ]},
+      { category: "Apprendre à entretenir sa santé par une activité physique régulière", items: [
+        { text: "Connaître les effets d'une pratique physique régulière sur son état de bien-être et de santé", domains: ["D1.4","D4"] },
+        { text: "Connaître et utiliser des indicateurs objectifs pour caractériser l'effort physique", domains: ["D1.4","D4"] },
+        { text: "Évaluer la quantité et qualité de son activité physique quotidienne dans et hors l'école", domains: ["D1.4","D4"] },
+        { text: "Adapter l'intensité de son engagement physique à ses possibilités pour ne pas se mettre en danger", domains: ["D1.4","D4"] },
+        { text: "Savoir s'échauffer de façon autonome", domains: ["D1.4","D4"] }
+      ]},
+      { category: "S'approprier une culture physique sportive et artistique pour construire progressivement un regard lucide sur le monde contemporain", items: [
+        { text: "S'approprier, exploiter et savoir expliquer les principes d'efficacité d'un geste technique", domains: ["D1.4","D5"] },
+        { text: "Acquérir les bases d'une attitude réflexive et critique vis-à-vis du spectacle sportif", domains: ["D1.4","D5"] },
+        { text: "Découvrir l'impact des nouvelles technologies appliquées à la pratique physique et sportive", domains: ["D1.4","D5"] },
+        { text: "Connaître des éléments essentiels de l'histoire des pratiques corporelles éclairant les activités physiques contemporaines", domains: ["D1.4","D5"] },
+        { text: "Organiser un tournoi", domains: ["D1.4","D5"] }
+      ]},
+      { category: "Compétences transversales", items: [
+        { text: "Maîtriser des connaissances sur l'activité et sur le règlement", domains: [] },
+        { text: "Être capable de travailler en autonomie", domains: ["D1.4","D2"] }
+      ]}
+    ];
+
+    let currentCycle = 3;
+
+    function renderReferentiel() {
+      const container = document.getElementById('referentiel-container');
+      container.innerHTML = '';
+      const referentiel = currentCycle === 3 ? referentielCycle3 : referentielCycle4;
+      const domainColors = { "D1.4": "tag-d14", "D2": "tag-d2", "D3": "tag-d3", "D4": "tag-d4", "D5": "tag-d5" };
+      referentiel.forEach(cat => {
+        const section = document.createElement('div');
+        section.className = 'ref-category bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm';
+        let itemsHtml = cat.items.map(item => {
+          const tags = item.domains.map(d => `<span class="competency-tag ${domainColors[d] || 'tag-d14'}">${d}</span>`).join('');
+          return `<div class="ref-item"><span class="flex-1 text-gray-700">${item.text}</span><div class="flex-shrink-0 ml-2">${tags || '<span class="text-gray-400 text-xs">—</span>'}</div></div>`;
+        }).join('');
+        section.innerHTML = `<div class="ref-category-title p-3 bg-gray-50 border-b">${cat.category}</div>${itemsHtml}`;
+        container.appendChild(section);
+      });
+    }
+
+    document.getElementById('btn-cycle3').addEventListener('click', () => {
+      currentCycle = 3;
+      document.getElementById('btn-cycle3').classList.add('active');
+      document.getElementById('btn-cycle4').classList.remove('active');
+      updateRefTitle();
+      renderReferentiel();
+      renderEvals();
+    });
+    document.getElementById('btn-cycle4').addEventListener('click', () => {
+      currentCycle = 4;
+      document.getElementById('btn-cycle4').classList.add('active');
+      document.getElementById('btn-cycle3').classList.remove('active');
+      updateRefTitle();
+      renderReferentiel();
+      renderEvals();
+    });
+
+    function updateRefTitle() {
+      document.getElementById('ref-section-title-wrapper').textContent = `📚 RÉFÉRENTIEL DE COMPÉTENCES EPS — CYCLE ${currentCycle}`;
+    }
+
+    const defaultSessions = [
+      { title: "SÉANCE 1 : Exploration des composantes du mouvement & Prise de repères rythmiques", duration: "2h00", material: "Enceinte, carnet de bord", objective: "Explorer les composantes (Espace, Temps, Énergie) et apprendre la Routine Échauffement Danse.", domains: ["D1.4","D4"], competencies: ["Motricité","Santé"], blocks: [{ phase: "echauffement", title: "Mise en train & Routine Échauffement", duration: "25 min", items: ["Routine Danseur (15 min) : Mobilisation articulaire de haut en bas, isolation du buste et ancrage au sol.","Marche Rythmique (10 min) : Déplacement libre et frappe des mains sur le tempo."] },{ phase: "exercices", title: "Ateliers de recherche motrice (Composantes)", duration: "1h00", items: ["Espace (20 min) : Pose immobile sur un niveau imposé : Haut, Moyen, Sol.","Temps (20 min) : Marcher 8 temps et se bloquer en statue pendant 4 temps.","Énergie (20 min) : 4 mouvements saccadés puis 4 mouvements fluides."], success: "Marquage net de l'arrêt et contraste d'énergie très visible." },{ phase: "bilan", title: "Restitution & Bilan", duration: "35 min", items: ["Passage demi-groupe avec observation silencieuse, puis verbalisation des ressentis."] }] },
+      { title: "SÉANCE 2 : Structuration des pas de base & Synchronisation sur phrase commune", duration: "2h00", material: "Enceinte, fiches-repères des pas", objective: "Mémoriser et exécuter une phrase chorégraphique commune synchronisée avec la musique.", domains: ["D1.4","D2"], competencies: ["Motricité","Méthodes"], blocks: [{ phase: "echauffement", title: "Échauffement guidé & Apprentissage phrase", duration: "1h25", items: ["Échauffement (20 min) : Routine d'éveil corporel sous la conduite d'un élève leader.","Décomposition pas de base (30 min) : 2 pas de chassé ➔ 1 demi-tour ➔ 2 impacts de bras ➔ Descente au sol.","Répétition rythmique (35 min) : Sans musique en comptant, puis tempo lent et normal."], tip: "Compter à voix haute pour caler l'unisson collectif." },{ phase: "bilan", title: "Observation binômes & Bilan", duration: "35 min", items: ["Miroir Contrôleur (20 min) : A danse, B vérifie le calage au temps 1.","Bilan (15 min) : Auto-évaluation et repérage des profils."] }] },
+      { title: "SÉANCE 3 : Composition de groupe, unisson & Exploitation des espaces", duration: "2h00", material: "Enceinte, carnet de groupe", objective: "Composer le début d'une chorégraphie de groupe avec variations d'espace et unisson.", domains: ["D1.4","D2","D3"], competencies: ["Motricité","Méthodes","Rôles sociaux"], blocks: [{ phase: "echauffement", title: "Échauffement en équipe", duration: "20 min", items: ["Prise en charge autonome de la routine en cercle."] },{ phase: "exercices", title: "Atelier création Bloc 1", duration: "1h10", items: ["Statuette de départ (20 min) : Pose collective immobile (3 sec) avec 2 niveaux différents.","Unisson (30 min) : 16 temps exécutés exactement en même temps par tous.","Formations spatiales (20 min) : Triangle, ligne ou diagonale."] },{ phase: "bilan", title: "Inter-évaluation & Carnet de bord", duration: "30 min", items: ["Passages croisés pour évaluer l'immobilité de départ et annotation des formations."] }] },
+      { title: "SÉANCE 4 : Procédés avancés (Cascade/Canon & Énergies)", duration: "2h00", material: "Enceinte, fiches procédés", objective: "Enrichir la création avec des procédés temporels (cascade/canon) et des ruptures d'énergie.", domains: ["D1.4","D2","D3"], competencies: ["Motricité","Méthodes","Rôles sociaux"], blocks: [{ phase: "echauffement", title: "Échauffement autonome", duration: "20 min", items: ["Réalisation autonome contrôlée par l'enseignant."] },{ phase: "exercices", title: "Composition Bloc 2", duration: "1h10", items: ["Cascade/Canon (30 min) : Même mouvement avec 2 temps de décalage.","Énergies contrastées (20 min) : Passage saccadé suivi d'un passage fluide ou ralenti.","Assemblage (20 min) : Filage complet Statuette ➔ Unisson ➔ Cascade ➔ Rupture."], success: "Le décalage en cascade est régulier et fluide." },{ phase: "bilan", title: "Critique demi-groupe & Régulation", duration: "30 min", items: ["Passages scéniques croisés et ciblage des ajustements pour la S5."] }] },
+      { title: "SÉANCE 5 : Stabilisation du geste, filages complets & Scénographie", duration: "2h00", material: "Enceinte, fiches de filage", objective: "Finaliser la chorégraphie de A à Z et réaliser des filages complets dans les conditions de spectacle.", domains: ["D1.4","D2"], competencies: ["Motricité","Méthodes","Santé"], blocks: [{ phase: "echauffement", title: "Échauffement autonome", duration: "20 min", items: ["Validation Domaine 4 (Santé/Préparation corporelle)."] },{ phase: "exercices", title: "Finition scénique", duration: "1h10", items: ["Entrée/Sortie de scène (20 min) : Entrer concentrés, danser, finir sur statuette (3 sec), sortir.","Mémorisation intensive (30 min) : 5 filages consécutifs sans interrompre la musique.","Nettoyage du geste (20 min) : Hauteur des bras, port de tête, regards vers le public."] },{ phase: "bilan", title: "Représentation à blanc & Bilan", duration: "30 min", items: ["Passage dans les conditions exactes de l'examen final."] }] },
+      { title: "SÉANCE 6 : Spectacle final & Évaluation du bilan des compétences", duration: "2h00", material: "Espace scène, grille d'évaluation officielle", objective: "Prestation publique devant la classe et évaluation sommative.", domains: ["D1.4","D2","D3","D4"], competencies: ["Motricité","Méthodes","Rôles sociaux","Santé"], blocks: [{ phase: "echauffement", title: "Préparation & Mise en condition", duration: "20 min", items: ["Échauffement collectif, respiration et gestion du trac."] },{ phase: "exercices", title: "Passages scéniques", duration: "1h10", items: ["Prestation de chaque groupe (1 min à 1 min 30).","Rôle des spectateurs : Fiche d'observation complétée dans le silence."], success: "Notation critériée sur la grille officielle des 4 domaines." },{ phase: "bilan", title: "Bilan de fin de cycle & Auto-évaluation", duration: "30 min", items: ["Débriefing oral collectif et remplissage final du livret de compétences."] }] }
+    ];
+
+    const defaultEvals = [
+      { title: "1. DÉVELOPPER SA MOTRICITÉ & CONSTRUIRE UN LANGAGE DU CORPS", color: "#2e7d32", criteres: "Pas de base & bras\nSynchronisation musique/pairs\nComposantes (espace, énergie)", niv1: "Geste désordonné. Pas de synchronisation.", niv2: "Pas connus mais désynchronisations rythmiques.", niv3: "Chorégraphie synchronisée avec musique et partenaires.", niv4: "Prestation artistique autonome et créative." },
+      { title: "2. MÉTHODES ET OUTILS POUR APPRENDRE", color: "#e65100", criteres: "Répétition autonome\nUtilisation des fiches\nEntraide et retours", niv1: "Ne répète pas spontanément. Fiche non renseignée.", niv2: "Répète si sollicité. Remplit la fiche sommairement.", niv3: "Répète en autonomie. Remplit correctement la fiche.", niv4: "Crée ses propres exercices de pratique." },
+      { title: "3. PARTAGER DES RÈGLES, ASSUMER DES RÔLES ET DES RESPONSABILITÉS", color: "#1565C0", criteres: "Prestation scénique\nPosture de spectateur\nRespect des prestations", niv1: "Refuse de s'exprimer ou perturbe les pairs.", niv2: "S'exprime avec gêne. Spectateur parfois distrait.", niv3: "S'exprime avec engagement. Observe avec respect.", niv4: "Fait preuve de leadership et guide les autres." },
+      { title: "4. APPRENDRE À ENTRETENIR SA SANTÉ PAR UNE ACTIVITÉ PHYSIQUE RÉGULIÈRE", color: "#00695C", criteres: "Préparation corporelle\nAutonomie à l'échauffement", niv1: "Ne réalise pas l'échauffement correctement.", niv2: "Réalise l'échauffement en suivant passivement.", niv3: "S'approprie les principes, échauffement autonome.", niv4: "Conçoit des routines d'échauffement adaptées." },
+      { title: "5. S'APPROPRIER UNE CULTURE PHYSIQUE SPORTIVE ET ARTISTIQUE", color: "#6a1b9a", criteres: "Connaissance du contexte\nRéflexion critique\nRespecter l'environnement", niv1: "Pas de connaissance du contexte de l'activité.", niv2: "Connaissance partiële du contexte de l'activité.", niv3: "Bonne connaissance du contexte et de l'histoire de l'activité.", niv4: "Analyse critique et perspective historique approfondie." }
+    ];
+    
+    const colorMap = {
+      "#2e7d32": "#2e7d32",
+      "#e65100": "#e65100",
+      "#1565C0": "#1565C0",
+      "#00695C": "#00695C"
+    };
+
+    let sessions = JSON.parse(JSON.stringify(defaultSessions));
+    let evals = JSON.parse(JSON.stringify(defaultEvals));
+    const phaseLabels = { echauffement: "Échauffement", exercices: "Exercices", bilan: "Bilan" };
+
+    function renderSessions() {
+      const container = document.getElementById('sessions-container');
+      container.innerHTML = '';
+      sessions.forEach((s, sessionIdx) => {
+        const card = document.createElement('div');
+        card.className = 'session-card';
+        card.style.borderColor = '#1565C0';
+        card.style.borderWidth = '2px';
+        
+        let objectiveHtml = `<div style="padding:8px 14px;background:#e3f2fd;border-bottom:1px solid #90caf9;font-size:0.8rem;color:#1565C0;font-weight:600;margin-bottom:8px;border-radius:6px;word-wrap:break-word;overflow-wrap:break-word;">🎯 Objectif : <span contenteditable="true" class="editable-objective" data-session="${sessionIdx}" style="font-weight:normal;font-style:italic;cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;" onblur="updateSessionField(${sessionIdx}, 'objective', this.textContent)">${s.objective||'À définir'}</span></div>`;
+        
+        let headerHtml = `<div class="session-card-header" style="background: linear-gradient(135deg, #1565C0, #1976D2);"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center;"><h3 class="font-bold text-sm flex-1" style="word-wrap:break-word;overflow-wrap:break-word;">SÉANCE ${sessionIdx+1} / ${sessions.length} : <span contenteditable="true" class="editable-title" data-session="${sessionIdx}" style="font-weight:normal;cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;" onblur="updateSessionField(${sessionIdx}, 'title', this.textContent)">${s.title.split(':').slice(1).join(':').trim()||s.title}</span></h3><span class="duration-pill" contenteditable="true" data-session="${sessionIdx}" style="cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;flex-shrink:0;" onblur="updateSessionField(${sessionIdx}, 'duration', this.textContent)">${s.duration}</span></div></div>`;
+        
+        let blocksHtml = s.blocks.map((b, blockIdx) => {
+          let itemsHtml = b.items.map((item, itemIdx) => {
+            return `<li contenteditable="true" class="editable-item" data-session="${sessionIdx}" data-block="${blockIdx}" data-item="${itemIdx}" style="cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="updateSessionItem(${sessionIdx}, ${blockIdx}, ${itemIdx}, this.textContent)">${item}</li>`;
+          }).join('');
+          let extra = '';
+          if (b.success) extra += `<div class="success-marker">✅ <span contenteditable="true" data-session="${sessionIdx}" data-block="${blockIdx}" data-field="success" style="cursor:text;word-wrap:break-word;overflow-wrap:break-word;" onblur="updateSessionBlock(${sessionIdx}, ${blockIdx}, 'success', this.textContent)">${b.success}</span></div>`;
+          if (b.tip) extra += `<div class="tip-marker">💡 <span contenteditable="true" data-session="${sessionIdx}" data-block="${blockIdx}" data-field="tip" style="cursor:text;word-wrap:break-word;overflow-wrap:break-word;" onblur="updateSessionBlock(${sessionIdx}, ${blockIdx}, 'tip', this.textContent)">${b.tip}</span></div>`;
+          return `<div class="phase-block phase-${b.phase||'exercices'}"><div class="flex gap-3"><div class="phase-indicator"></div><div class="flex-1"><div class="flex items-center gap-2 mb-1 flex-wrap"><span class="phase-label">${phaseLabels[b.phase]||'Exercices'}</span><span class="phase-title" contenteditable="true" data-session="${sessionIdx}" data-block="${blockIdx}" data-field="title" style="cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="updateSessionBlock(${sessionIdx}, ${blockIdx}, 'title', this.textContent)">${b.title}</span><span class="phase-duration ml-auto" contenteditable="true" data-session="${sessionIdx}" data-block="${blockIdx}" data-field="duration" style="cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;flex-shrink:0;" onblur="updateSessionBlock(${sessionIdx}, ${blockIdx}, 'duration', this.textContent)">${b.duration}</span></div><ul class="phase-content">${itemsHtml}</ul>${extra}</div></div></div>`;
+        }).join('');
+        
+        card.innerHTML = `${headerHtml}<div class="meta-line"><span>📍 <span contenteditable="true" data-session="${sessionIdx}" data-field="material" style="cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;" onblur="updateSessionField(${sessionIdx}, 'material', this.textContent)">${s.material||'À définir'}</span></span></div>${objectiveHtml}${blocksHtml}`;
+        container.appendChild(card);
+      });
+      document.getElementById('session-count').textContent = sessions.length;
+      
+      // Add focus/blur styling to editable elements
+      document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+        el.addEventListener('focus', function() {
+          this.style.backgroundColor = '#fef3c7';
+          this.style.outline = '1px solid #fbbf24';
+        });
+        el.addEventListener('blur', function() {
+          this.style.backgroundColor = 'transparent';
+          this.style.outline = '1px solid transparent';
+        });
+      });
+    }
+    
+    function updateSessionField(sessionIdx, field, value) {
+      sessions[sessionIdx][field] = value;
+    }
+    
+    function updateSessionBlock(sessionIdx, blockIdx, field, value) {
+      sessions[sessionIdx].blocks[blockIdx][field] = value;
+    }
+    
+    function updateSessionItem(sessionIdx, blockIdx, itemIdx, value) {
+      sessions[sessionIdx].blocks[blockIdx].items[itemIdx] = value;
+    }
+
+    function getCompetenciesFromReferentiel() {
+      const referentiel = currentCycle === 3 ? referentielCycle3 : referentielCycle4;
+      const competencies = [];
+      referentiel.forEach(cat => {
+        competencies.push(cat.category);
+        cat.items.forEach(item => {
+          competencies.push(item.text);
+        });
+      });
+      return competencies;
+    }
+
+    function renderEvals() {
+      const container = document.getElementById('evals-container');
+      container.innerHTML = '';
+      evals.forEach((e, evalIdx) => {
+        const card = document.createElement('div');
+        card.className = 'eval-card';
+        card.style.borderColor = e.color;
+        
+        // Extract title without emoji for print display
+        const titleText = e.title.replace(/^[📊💡📋🎯]*\s*/, '').trim();
+        
+        // Use blue gradient for all headers (same as session cards)
+        const headerColor = 'linear-gradient(135deg, #1565C0, #1976D2)';
+        
+        card.innerHTML = `<div class="eval-card-header" style="background:${headerColor};">
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center;">
+            <span>${titleText}</span>
+            <select id="eval-title-select-${evalIdx}" class="eval-title-select no-print" style="padding:6px 10px;border-radius:4px;border:1px solid #ccc;font-size:0.9rem;background:#ffffff;color:#333;cursor:pointer;font-weight:500;" data-eval="${evalIdx}">
+              <option value="">— Ajouter compétence du référentiel —</option>
+            </select>
+          </div>
+        </div><div class="w-full overflow-x-auto"><table class="eval-table"><thead><tr><th style="background:#37474f;color:white;text-align:left;">CRITÈRES</th><th style="min-width:100px;">NON MAÎTRISÉ</th><th style="min-width:100px;">EN COURS</th><th style="min-width:100px;">MAÎTRISÉ</th><th style="min-width:100px;">DÉPASSÉ</th></tr></thead><tbody><tr></tr></tbody></table></div>`;
+        container.appendChild(card);
+        
+        const critereCell = card.querySelector('tbody tr').insertCell(0);
+        critereCell.className = 'font-medium text-left';
+        critereCell.innerHTML = `<div contenteditable="true" class="eval-editable" style="min-height:60px;padding:12px 14px;outline:1px solid transparent;border-radius:3px;" data-eval="${evalIdx}" data-field="criteres">${e.criteres}</div>`;
+        
+        const cells = [
+          { field: 'niv1', value: e.niv1 },
+          { field: 'niv2', value: e.niv2 },
+          { field: 'niv3', value: e.niv3 },
+          { field: 'niv4', value: e.niv4 || '' }
+        ];
+        
+        cells.forEach(cell => {
+          const td = card.querySelector('tbody tr').insertCell(-1);
+          td.innerHTML = `<div contenteditable="true" class="eval-editable" style="min-height:60px;padding:12px 14px;outline:1px solid transparent;border-radius:3px;" data-eval="${evalIdx}" data-field="${cell.field}">${cell.value}</div>`;
+        });
+        
+        // Populate dropdown with referentiel competencies
+        const select = card.querySelector(`#eval-title-select-${evalIdx}`);
+        const competencies = getCompetenciesFromReferentiel();
+        competencies.forEach(comp => {
+          const option = document.createElement('option');
+          option.value = comp;
+          option.textContent = comp;
+          select.appendChild(option);
+        });
+        
+        select.addEventListener('change', function() {
+          if (this.value) {
+            evals[evalIdx].title = `${evalIdx + 1}. ${this.value}`;
+            renderEvals();
+          }
+        });
+      });
+      document.getElementById('eval-count').textContent = evals.length;
+      
+      // Add event listeners for editable cells
+      document.querySelectorAll('.eval-editable').forEach(cell => {
+        cell.addEventListener('focus', function() {
+          this.style.backgroundColor = '#fef3c7';
+          this.style.outline = '1px solid #fbbf24';
+        });
+        cell.addEventListener('blur', function() {
+          this.style.backgroundColor = 'transparent';
+          this.style.outline = '1px solid transparent';
+          const evalIdx = parseInt(this.dataset.eval);
+          const field = this.dataset.field;
+          evals[evalIdx][field] = this.textContent;
+        });
+      });
+    }
+
+    function renderFiches() {
+      const container = document.getElementById('fiches-container');
+      container.innerHTML = '';
+      sessions.forEach((s, sessionIdx) => {
+        const card = document.createElement('div');
+        card.className = 'fiche-card';
+        
+        let objectiveHtml = `<div style="padding:8px 14px;background:#e3f2fd;border-bottom:1px solid #90caf9;font-size:0.8rem;color:#1565C0;font-weight:600;">🎯 Objectif : <span contenteditable="true" class="editable-objective" data-session="${sessionIdx}" style="font-weight:normal;font-style:italic;cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="updateSessionField(${sessionIdx}, 'objective', this.textContent)">${s.objective||'À définir'}</span></div>`;
+        
+        let headerHtml = `<div class="fiche-header"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center;width:100%;"><h3 class="font-bold text-sm flex-1" style="word-wrap:break-word;overflow-wrap:break-word;">SÉANCE ${sessionIdx+1} / ${sessions.length} : <span contenteditable="true" class="editable-title" data-session="${sessionIdx}" style="font-weight:normal;cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;" onblur="updateSessionField(${sessionIdx}, 'title', this.textContent)">${s.title.split(':').slice(1).join(':').trim()||s.title}</span></h3><span class="text-xs font-semibold" contenteditable="true" data-session="${sessionIdx}" style="cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;flex-shrink:0;" onblur="updateSessionField(${sessionIdx}, 'duration', this.textContent)">${s.duration}</span></div></div>`;
+        
+        let blocksHtml = s.blocks.map((b, blockIdx) => {
+          let itemsHtml = b.items.map((item, itemIdx) => {
+            return `<li contenteditable="true" class="editable-item" data-session="${sessionIdx}" data-block="${blockIdx}" data-item="${itemIdx}" style="cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="updateSessionItem(${sessionIdx}, ${blockIdx}, ${itemIdx}, this.textContent)">${item}</li>`;
+          }).join('');
+          let extra = '';
+          if (b.success) extra += `<div class="success-marker">✅ <span contenteditable="true" data-session="${sessionIdx}" data-block="${blockIdx}" data-field="success" style="cursor:text;word-wrap:break-word;overflow-wrap:break-word;" onblur="updateSessionBlock(${sessionIdx}, ${blockIdx}, 'success', this.textContent)">${b.success}</span></div>`;
+          if (b.tip) extra += `<div class="tip-marker">💡 <span contenteditable="true" data-session="${sessionIdx}" data-block="${blockIdx}" data-field="tip" style="cursor:text;word-wrap:break-word;overflow-wrap:break-word;" onblur="updateSessionBlock(${sessionIdx}, ${blockIdx}, 'tip', this.textContent)">${b.tip}</span></div>`;
+          return `<div class="phase-block phase-${b.phase||'exercices'}"><div class="flex gap-3"><div class="phase-indicator"></div><div class="flex-1"><div class="flex items-center gap-2 mb-1 flex-wrap"><span class="phase-label">${phaseLabels[b.phase]||'Exercices'}</span><span class="phase-title" contenteditable="true" data-session="${sessionIdx}" data-block="${blockIdx}" data-field="title" style="cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;word-wrap:break-word;overflow-wrap:break-word;" onblur="updateSessionBlock(${sessionIdx}, ${blockIdx}, 'title', this.textContent)">${b.title}</span><span class="phase-duration ml-auto" contenteditable="true" data-session="${sessionIdx}" data-block="${blockIdx}" data-field="duration" style="cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;flex-shrink:0;" onblur="updateSessionBlock(${sessionIdx}, ${blockIdx}, 'duration', this.textContent)">${b.duration}</span></div><ul class="phase-content">${itemsHtml}</ul>${extra}</div></div></div>`;
+        }).join('');
+        
+        card.innerHTML = `${headerHtml}<div class="meta-line"><span>📍 <span contenteditable="true" data-session="${sessionIdx}" data-field="material" style="cursor:text;padding:2px 4px;border-radius:3px;transition:background 0.15s;" onblur="updateSessionField(${sessionIdx}, 'material', this.textContent)">${s.material||'À définir'}</span></span></div>${objectiveHtml}${blocksHtml}`;
+        container.appendChild(card);
+      });
+      
+      // Add focus/blur styling to editable elements in fiches
+      document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+        el.addEventListener('focus', function() {
+          this.style.backgroundColor = '#fef3c7';
+          this.style.outline = '1px solid #fbbf24';
+        });
+        el.addEventListener('blur', function() {
+          this.style.backgroundColor = 'transparent';
+          this.style.outline = '1px solid transparent';
+        });
+      });
+    }
+
+    document.getElementById('btn-add-session').addEventListener('click', () => {
+      const n = sessions.length + 1;
+      sessions.push({ title: `SÉANCE ${n} : Nouvelle séance`, duration: "2h00", material: "À définir", objective: "À définir", domains: ["D1.4"], competencies: ["Motricité"], blocks: [{ phase: "echauffement", title: "Échauffement", duration: "20 min", items: ["Contenu à définir."] },{ phase: "exercices", title: "Exercices", duration: "1h10", items: ["Contenu à définir."] },{ phase: "bilan", title: "Bilan", duration: "30 min", items: ["Contenu à définir."] }] });
+      renderAll();
+    });
+    document.getElementById('btn-remove-session').addEventListener('click', () => { if (sessions.length <= 1) return; sessions.pop(); renderAll(); });
+    document.getElementById('btn-add-eval').addEventListener('click', () => {
+      const n = evals.length + 1;
+      evals.push({ title: `${n}. NOUVELLE COMPÉTENCE`, color: "#1565C0", criteres: "Critère 1\nCritère 2", niv1: "Non maîtrisé", niv2: "En cours", niv3: "Maîtrisé", niv4: "Dépassé" });
+      renderAll();
+    });
+    document.getElementById('btn-remove-eval').addEventListener('click', () => { if (evals.length <= 1) return; evals.pop(); renderAll(); });
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      sessions = [{ title: "SÉANCE 1 : Nouvelle séance", duration: "2h00", material: "À définir", objective: "À définir", domains: ["D1.4"], competencies: ["Motricité"], blocks: [{ phase: "echauffement", title: "Échauffement", duration: "20 min", items: ["Contenu à définir."] },{ phase: "exercices", title: "Exercices", duration: "1h10", items: ["Contenu à définir."] },{ phase: "bilan", title: "Bilan", duration: "30 min", items: ["Contenu à définir."] }] }];
+      evals = [{ title: "1. NOUVELLE COMPÉTENCE", color: "#1565C0", criteres: "Critère à définir", niv1: "Non maîtrisé", niv2: "En cours", niv3: "Maîtrisé", niv4: "Dépassé" }];
+      // Clear all input fields
+      document.getElementById('ancrage-field-ca').value = '';
+      document.getElementById('ancrage-field-domaines').value = '';
+      document.getElementById('orga-field-format').value = '';
+      document.getElementById('orga-field-materiel').value = '';
+      document.getElementById('orga-field-outils').value = '';
+      document.getElementById('orga-field-objectif').value = '';
+      document.getElementById('objective-1').value = '';
+      document.getElementById('objective-2').value = '';
+      document.getElementById('objective-3').value = '';
+      document.getElementById('objective-4').value = '';
+      renderAll();
+    });
+
+    function renderAll() { updateRefTitle(); renderSessions(); renderEvals(); renderFiches(); renderReferentiel(); }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('tab-active'); b.classList.add('text-gray-500'); });
+        btn.classList.add('tab-active'); btn.classList.remove('text-gray-500');
+        const tab = btn.dataset.tab;
+        ['apercu','referentiel','evaluation','fiches'].forEach(t => document.getElementById('tab-'+t).classList.toggle('hidden', tab !== t));
+      });
+    });
+
+    renderAll();
+    lucide.createIcons();
+
+    // Auto-resize textareas to fit content
+    function autoResizeTextarea(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.max(textarea.scrollHeight, 24) + 'px';
+    }
+
+    document.querySelectorAll('textarea.canva-input').forEach(textarea => {
+      textarea.classList.add('auto-height');
+      textarea.addEventListener('input', function() {
+        autoResizeTextarea(this);
+      });
+      // Resize on initial load
+      autoResizeTextarea(textarea);
+    });
+
+    // Add focus/blur styling to contenteditable fields
+    document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+      el.addEventListener('focus', function() {
+        this.style.backgroundColor = '#fef3c7';
+        this.style.outline = '1px solid #fbbf24';
+      });
+      el.addEventListener('blur', function() {
+        this.style.backgroundColor = 'transparent';
+        this.style.outline = '1px solid transparent';
+      });
+    });
+  </script>
+ </body>
+</html>
